@@ -23,45 +23,146 @@ public class Algebra {
    		System.out.println(sqrt(76123));
 	}  
 
-	// Returns x1 + x2
-	public static int plus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+    // Returns x1 + x2
+    public static int plus(int x1, int x2) {
+        int result = x1;
+        int count = x2;
+        
+        if (count < 0) {
+            while (count != 0) {
+                result--;
+                count++;
+            }
+        } else {
+            while (count != 0) {
+                result++;
+                count--;
+            }
+        }
+        return result;
+    }
 
-	// Returns x1 - x2
-	public static int minus(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+    // Returns x1 - x2
+    public static int minus(int x1, int x2) {
+        int result = x1;
+        int count = x2;
+        
+        if (count < 0) {
+            while (count != 0) {
+                result++;
+                count++;
+            }
+        } else {
+            while (count != 0) {
+                result--;
+                count--;
+            }
+        }
+        return result;
+    }
 
-	// Returns x1 * x2
-	public static int times(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+    // Returns x1 * x2
+    public static int times(int x1, int x2) {
+        int result = 0;
+        int count = x2;
+        boolean negateResult = false;
 
-	// Returns x^n (for n >= 0)
-	public static int pow(int x, int n) {
-		// Replace the following statement with your code
-		return 0;
-	}
+        if (x1 < 0) 
+		{ 
+			x1 = minus(0, x1); 
+			negateResult = !negateResult; 
+		}
+        if (x2 < 0) 
+		{ 
+			count = minus(0, x2); 
+			negateResult = !negateResult; 
+		}
+        
+        int i = 0;
+        while (i < count) {
+            result = plus(result, x1);
+            i++;
+        }
 
-	// Returns the integer part of x1 / x2 
-	public static int div(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}
+        if (negateResult) {
+            return minus(0, result);
+        }
+        return result;
+    }
 
-	// Returns x1 % x2
-	public static int mod(int x1, int x2) {
-		// Replace the following statement with your code
-		return 0;
-	}	
+    // Returns x^n (for n >= 0)
+    public static int pow(int x, int n) {
+        if (n == 0) return 1;
+        if (n < 0) return 0; 
+        
+        int result = x;
+        int i = 1;
+        while (i < n) {
+            result = times(result, x);
+            i++;
+        }
+        return result;
+    }
 
-	// Returns the integer part of sqrt(x) 
-	public static int sqrt(int x) {
-		// Replace the following statement with your code
-		return 0;
-	}	  	  
+    // Returns the integer part of x1 / x2 
+    public static int div(int x1, int x2) {
+        if (x2 == 0) return 0; 
+        
+        int result = 0;
+        int absX1 = x1;
+        int absX2 = x2;
+        boolean negateResult = false;
+
+        if (x1 < 0) 
+		{
+			absX1 = minus(0, x1);
+			negateResult = !negateResult;
+		}
+
+        if (x2 < 0) 
+		{ 
+			absX2 = minus(0, x2); 
+			negateResult = !negateResult; 
+		}
+        
+        int current = absX1;
+
+        while (current >= absX2) {
+            current = minus(current, absX2);
+            result++;
+        }
+
+        if (negateResult) {
+            return minus(0, result);
+        }
+        return result;
+    }
+
+    // Returns x1 % x2
+    public static int mod(int x1, int x2) {
+        if (x2 == 0) 
+		   return 0;
+        
+        int divisionResult = div(x1, x2);
+        int multiplicationResult = times(divisionResult, x2);
+        return minus(x1, multiplicationResult);
+    } 
+
+    // Returns the integer part of sqrt(x) 
+    public static int sqrt(int x) {
+        if (x < 0) return 0;
+        
+        int i = 0;
+        
+        while (true) {
+            int iPlusOne = plus(i, 1);
+            int nextSquared = times(iPlusOne, iPlusOne);
+
+            if (nextSquared < 0 || nextSquared > x) {
+                break;
+            }
+            i++;
+        }
+        return i;
+    }       
 }
